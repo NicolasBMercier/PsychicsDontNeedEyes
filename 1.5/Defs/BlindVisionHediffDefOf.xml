@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <HediffDef Name="BlindVision">
+    <defName>BlindVision</defName>
+    <label>Psychic Sight</label>
+    <defaultLabelColor>(218,66,245)</defaultLabelColor>
+    <description>Psychic Sight allows the user to see with the help of his psychic powers.</description>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <minSeverity>1</minSeverity>
+    <maxSeverity>6</maxSeverity>
+    <stages>
+      <li>
+        <label>Mediocre</label>
+        <minSeverity>1</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>0.25</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>Poor</label>
+        <minSeverity>2</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>0.5</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>Correct</label>
+        <minSeverity>3</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>0.75</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>Good</label>
+        <minSeverity>4</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>Great</label>
+        <minSeverity>5</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>1.25</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>Supreme</label>
+        <minSeverity>6</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>1.5</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>

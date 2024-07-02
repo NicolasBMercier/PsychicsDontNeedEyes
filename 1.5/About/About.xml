@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<packageId>BurritoJambon.PsychicsDontNeedEyes</packageId>
+	<name>Psychics Dont Need Eyes</name>
+	<description>
+    This mod add a new trait to the game, Psychic Sight. This trait improve the sight of blind pawns, allowing them to see with the help of their psychic powers.
+  </description>
+	<author>BurritoJambon</author>
+	<supportedVersions>
+		<li>1.5</li>
+	</supportedVersions>
+	<modVersion>1.0</modVersion>
+	<modDependencies>
+	<li>
+		<packageId>brrainz.harmony</packageId>
+		<displayName>Harmony</displayName>
+		<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+	</li>
+	</modDependencies>
+</ModMetaData>
