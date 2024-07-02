@@ -7,8 +7,6 @@
     <description>Psychic Sight allows the user to see with the help of his psychic powers.</description>
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
-    <minSeverity>1</minSeverity>
-    <maxSeverity>6</maxSeverity>
     <stages>
       <li>
         <label>Mediocre</label>

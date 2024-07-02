@@ -14,22 +14,13 @@ namespace PsychicsDontNeedEyes
                     && HasPsylinkHediff(pawn)
                     && HasBlindVisionHediff(pawn) is false)
                 {
-                    UpdateBlindVisionStages();
-
-                    var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(BlindVisionHediffDefOf.BlindVision);
-                    if (hediff == null)
-                    {
-                        hediff = pawn.health.AddHediff(BlindVisionHediffDefOf.BlindVision);
-                    }
+                    var hediff = pawn.health.AddHediff(BlindVisionHediffDefOf.BlindVision);
                     UpdateHediffState(ref hediff, pawn);
-                    
-
                     Log.Message($"[PsychicsDontNeedEyes] Applied BlindVision hediff with severity {hediff.Severity} to pawn {pawn.Name}");
                 }
                 else if (HasBlindVisionHediff(pawn))
                 {
                     var hediff = pawn.health.hediffSet.GetFirstHediffOfDef(BlindVisionHediffDefOf.BlindVision);
-                    UpdateBlindVisionStages();
                     if (hediff.Severity != GetPsylinkLevel(pawn) || hediff.CapMods.First(x => x.capacity == PawnCapacityDefOf.Sight).offset != CalculateSightCapModsForSeverity(hediff.Severity, pawn.psychicEntropy.PsychicSensitivity))
                     {
                         UpdateHediffState(ref hediff, pawn);
@@ -37,7 +28,7 @@ namespace PsychicsDontNeedEyes
                     }
                 }
 
-                if (HasBlindVisionHediff(pawn) 
+                if (HasBlindVisionHediff(pawn)
                     && (IsTechnicallyBlind(pawn) is false || IsIdeologyPreventingBlindVision(pawn) || HasPsylinkHediff(pawn) is false))
                 {
                     RemoveBlindVisionHediff(pawn);
@@ -53,20 +44,28 @@ namespace PsychicsDontNeedEyes
         private static void UpdateHediffState(ref Hediff hediff, Pawn pawn)
         {
             hediff.Severity = GetPsylinkLevel(pawn);
-            hediff.CapMods.First(x => x.capacity == PawnCapacityDefOf.Sight).offset = CalculateTotalSightCapMods(hediff.CapMods.First(x => x.capacity == PawnCapacityDefOf.Sight).offset, pawn.psychicEntropy.PsychicSensitivity);
+            hediff.CapMods.First(x => x.capacity == PawnCapacityDefOf.Sight).offset = CalculateSightCapModsForSeverity(hediff.Severity, pawn.psychicEntropy.PsychicSensitivity);
         }
 
-        private static void UpdateBlindVisionStages() 
+        public static float CalculateSightCapModsForSeverity(float severity, float psychicSensitivity)
         {
-            PsychicsDontNeedEyesMod.settings.initialize();
+            if (PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel.TryGetValue((int)severity, out float baseCapMod))
+                return CalculateTotalSightCapMods(baseCapMod, psychicSensitivity);
 
-            HediffDef hediffDef = BlindVisionHediffDefOf.BlindVision;
-            hediffDef.stages[0].capMods[0].offset = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel1;
-            hediffDef.stages[1].capMods[0].offset = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel2;
-            hediffDef.stages[2].capMods[0].offset = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel3;
-            hediffDef.stages[3].capMods[0].offset = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel4;
-            hediffDef.stages[4].capMods[0].offset = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel5;
-            hediffDef.stages[5].capMods[0].offset = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel6;
+            if (PsychicsDontNeedEyesMod.settings.GenerateSightOffsetFromPsylinkLevel && PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel.Any())
+            {
+                var closestSeverity = PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel.OrderBy(x => Math.Abs(x.Key - severity)).First();
+                //Calculate the sight cap mods relatives to the closest severity level
+                return CalculateTotalSightCapMods(closestSeverity.Value + (severity - closestSeverity.Key) * PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevelDefault, psychicSensitivity);
+            }
+
+            if (PsychicsDontNeedEyesMod.settings.GenerateSightOffsetFromPsylinkLevel)
+                return CalculateTotalSightCapMods(severity * PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevelDefault, psychicSensitivity);
+
+            if (PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel.Any() is false)
+                return CalculateTotalSightCapMods(0, psychicSensitivity);
+
+            return CalculateTotalSightCapMods(PsychicsDontNeedEyesMod.settings.SightImproveForPsylinkLevel.OrderBy(x => Math.Abs(x.Key - severity)).First().Value, psychicSensitivity);
         }
 
         public static bool AffectsSight(Hediff hediff) => hediff.Part is not null && hediff.Part.def.tags.Contains(BodyPartTagDefOf.SightSource);
@@ -75,7 +74,13 @@ namespace PsychicsDontNeedEyes
 
         public static bool HasBlindVisionHediff(Pawn pawn) => pawn.health.hediffSet.HasHediff(BlindVisionHediffDefOf.BlindVision);
 
-        public static bool IsIdeologyPreventingBlindVision(Pawn pawn) => PsychicsDontNeedEyesMod.settings.OnlyAffectBlindsightPawns && pawn.Ideo.memes.All(x => x.defName is not "Blindsight");
+        public static bool IsIdeologyPreventingBlindVision(Pawn pawn)
+        {
+            if (pawn.Ideo is null)
+                return PsychicsDontNeedEyesMod.settings.OnlyAffectBlindsightPawns;
+
+            return PsychicsDontNeedEyesMod.settings.OnlyAffectBlindsightPawns && pawn.Ideo.memes.All(x => x.defName is not "Blindsight");
+        }
 
         public static void RemoveBlindVisionHediff(Pawn pawn)
         {
@@ -99,12 +104,12 @@ namespace PsychicsDontNeedEyes
 
         public static bool HasPsylinkHediff(Pawn pawn) => pawn.health.hediffSet.hediffs.Any(IsPsylinkHediff);
 
-        public static float GetPsylinkLevel(Pawn pawn) => pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.PsychicAmplifier)?.CurStageIndex + 1 ?? 0f;  // Adjust to match severity stages
-
-        private static float CalculateSightCapModsForSeverity(float severity, float psychicSensitivity)
+        public static float GetPsylinkLevel(Pawn pawn)
         {
-            float baseCapMod = BlindVisionHediffDefOf.BlindVision.stages.Where(stage => stage.minSeverity >= severity).OrderBy(stage => stage.minSeverity).First().capMods.First(capmod => capmod.capacity == PawnCapacityDefOf.Sight).offset;
-            return CalculateTotalSightCapMods(baseCapMod, psychicSensitivity);
+            if (pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.PsychicAmplifier) is not Hediff_Level hediff)
+                return 0f;
+
+            return hediff.level;  // Adjust to match severity stages
         }
 
         private static float CalculateTotalSightCapMods(float baseCapMod, float psychicSensitivity)
