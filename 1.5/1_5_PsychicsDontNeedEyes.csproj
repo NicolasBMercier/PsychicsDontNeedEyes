@@ -9,11 +9,6 @@
     <Configurations>Debug;Release;1.6 Debug;1.5 Debug</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>portable</DebugType>
     <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
