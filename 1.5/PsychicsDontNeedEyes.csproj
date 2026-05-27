@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>portable</DebugType>
+    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <!-- This property group ensures all DLLs are copied to the Assemblies folder -->
+  <PropertyGroup>
+    <AboutFolder>$(OutputPath)\..\About</AboutFolder>
+    <DefsFolder>$(OutputPath)\..\Defs</DefsFolder>
+  </PropertyGroup>
+
+  <Target Name="MoveDlls" AfterTargets="Build">
+    <ItemGroup>
+      <DllFiles Include="$(OutputPath)\About\*.xml" />
+      <PdbFiles Include="$(OutputPath)\About\*.png" />
+      <!-- Include all DLLs and PDBs in the output directory -->
+    </ItemGroup>
+    <MakeDir Directories="$(AboutFolder)" />
+    <Move SourceFiles="@(DllFiles)" DestinationFolder="$(AboutFolder)" />
+    <Move SourceFiles="@(PdbFiles)" DestinationFolder="$(AboutFolder)" />
+    <RemoveDir Directories="$(OutputPath)\About" />
+  </Target>
+
+  <Target Name="MoveDefs" AfterTargets="Build">
+    <ItemGroup>
+      <DefFiles Include="$(OutputPath)\Defs\*.xml" />
+      <!-- Include all DLLs and PDBs in the output directory -->
+    </ItemGroup>
+    <MakeDir Directories="$(DefsFolder)" />
+    <Move SourceFiles="@(DefFiles)" DestinationFolder="$(DefsFolder)" />
+    <RemoveDir Directories="$(OutputPath)\Defs" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4104" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="About\About.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="About\Preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Defs\BlindVisionHediffDefOf.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
