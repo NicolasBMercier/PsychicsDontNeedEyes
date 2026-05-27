@@ -6,16 +6,23 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Configurations>Debug;Release;1.6 Debug;1.5 Debug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>S:\Rimworld Dev\Rimworld Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>portable</DebugType>
-    <OutputPath>S:\Rimworld Dev\Rimworld Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.5 Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -48,8 +55,8 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4633" />
-    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4104" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>
