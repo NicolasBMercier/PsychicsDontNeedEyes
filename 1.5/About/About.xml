@@ -3,11 +3,12 @@
 	<packageId>BurritoJambon.PsychicsDontNeedEyes</packageId>
 	<name>Psychics Dont Need Eyes</name>
 	<description>
-    This mod add a new healt effect to the game, Psychic Sight. This effect improve the sight of blind pawns, allowing them to see with the help of their psychic powers.
+    This mod add a new health effect to the game, Psychic Sight. This effect improve the sight of blind pawns, allowing them to see with the help of their psychic powers.
   </description>
 	<author>BurritoJambon</author>
 	<supportedVersions>
 		<li>1.5</li>
+    <li>1.6</li>
 	</supportedVersions>
 	<modVersion>1.0</modVersion>
 	<modDependencies>

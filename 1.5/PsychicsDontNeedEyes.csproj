@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <OutputPath>S:\Rimworld Dev\Rimworld Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>portable</DebugType>
-    <OutputPath>C:\RIMWORLD_Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
+    <OutputPath>S:\Rimworld Dev\Rimworld Debug\Mods\PsychicsDontNeedEyes\Assemblies</OutputPath>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -48,8 +48,8 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4104" />
-    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4633" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
   </ItemGroup>
 
   <ItemGroup>

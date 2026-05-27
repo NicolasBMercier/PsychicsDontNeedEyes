@@ -59,20 +59,16 @@ namespace PsychicsDontNeedEyes
         [HarmonyPatch("CanHaveCapacity")]
         public static class CanHaveCapacity_SightPatch
         {
+            [HarmonyPostfix]
             public static void Postfix(ref bool __result)
             {
                 try
                 {
                     if (CalculateCapacityLevel_SightPatch.CurrentCapacityPawn == null)
-                    {
                         return;
-                    }
 
                     if (CalculateCapacityLevel_SightPatch.CurrentCapacityPawn.health.hediffSet.HasHediff(BlindVisionHediffDefOf.BlindVision))
-                    {
-                        // Modify the result based on your conditions
                         __result = true;
-                    }
                 }
                 catch (Exception e)
                 {
@@ -87,6 +83,7 @@ namespace PsychicsDontNeedEyes
         public static class CalculateCapacityLevel_SightPatch
         {
             internal static Pawn CurrentCapacityPawn;
+            [HarmonyPostfix]
             public static void Postfix(ref float __result, HediffSet diffSet)
             {
                 CurrentCapacityPawn = diffSet.pawn;
@@ -102,6 +99,7 @@ namespace PsychicsDontNeedEyes
         [HarmonyPatch("IsBiologicallyBlind")]
         public static class IsBiologicallyBlind_Patch
         {
+            [HarmonyPostfix]
             public static void Postfix(ref bool __result, Pawn pawn)
             {
                 if (pawn.health.hediffSet.HasHediff(BlindVisionHediffDefOf.BlindVision))
@@ -115,6 +113,7 @@ namespace PsychicsDontNeedEyes
         [HarmonyPatch("IsHalfBlind")]
         public static class IsHalfBlind_Patch
         {
+            [HarmonyPostfix]
             public static void Postfix(ref bool __result, Pawn p)
             {
                 if (p.health.hediffSet.HasHediff(BlindVisionHediffDefOf.BlindVision))
@@ -128,6 +127,7 @@ namespace PsychicsDontNeedEyes
         [HarmonyPatch("IsArtificiallyBlind")]
         public static class IsArtificiallyBlind_Patch
         {
+            [HarmonyPostfix]
             public static void Postfix(ref bool __result, Pawn p)
             {
                 if (p.health.hediffSet.HasHediff(BlindVisionHediffDefOf.BlindVision))
@@ -141,6 +141,7 @@ namespace PsychicsDontNeedEyes
         [HarmonyPatch("ConsideredBlind")]
         public static class ConsideredBlind_Patch
         {
+            [HarmonyPostfix]
             public static void Postfix(ref bool __result, Pawn pawn)
             {
                 if (pawn.health.hediffSet.HasHediff(BlindVisionHediffDefOf.BlindVision))
