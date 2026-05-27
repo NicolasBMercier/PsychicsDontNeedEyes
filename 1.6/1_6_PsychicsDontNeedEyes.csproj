@@ -35,6 +35,7 @@
   <Target Name="MoveDlls" AfterTargets="Build">
     <ItemGroup>
       <DllFiles Include="$(OutputPath)\About\*.xml" />
+      <DllFiles Include="$(OutputPath)\About\*.txt" />
       <PdbFiles Include="$(OutputPath)\About\*.png" />
       <!-- Include all DLLs and PDBs in the output directory -->
     </ItemGroup>
@@ -64,6 +65,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="About\Preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="About\PublishedFileId.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Defs\BlindVisionHediffDefOf.xml">
